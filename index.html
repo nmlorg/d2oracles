@@ -1,87 +1,93 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta content="Egg's Oracle Trainer" property="og:title">
-        <meta content="Train your ear to recognize VOG oracles by sound" property="og:description">
-        <meta content="Egg's Tools" property="og:site_name">
-        <base href="https://oracles.cabotmc.dev">
-        <title>Oracle Trainer</title>
-        <style>
-            #background {
-                background: no-repeat url('bg.png');
-                background-size: contain;
-                height: 75vmin;
-                left: 0;
-                position: absolute;
-                top: 0;
-                width: 100vmin;
-            }
-            #background > div {
-                background: grey;
-                cursor: pointer;
-                opacity: .8;
-                padding: .5vmin;
-                position: absolute;
-            }
-            body {
-                font-family: sans-serif;
-                background-color: #333;
-            }
-            #L1 {
-                top: 68%;
-                left: 26%;
-            }
-            #L2 {
-                top: 60%;
-                left: 20%;
-            }
-            #L3 {
-                top: 26%;
-                left: 35%;
-            }
-            #M {
-                top: 65%;
-                left: 48.5%;
-            }
-            #R1 {
-                top: 61%;
-                left: 70%;
-            }
-            #R2 {
-                top: 42%;
-                left: 77%;
-            }
-            #R3 {
-                top: 29%;
-                left: 63%;
-            }
-        </style>
-    </head>
-    <body>
-        <div id="background">
-            <div id="L1">L1</div>
-            <div id="L2">L2</div>
-            <div id="L3">L3</div>
-            <div id="M">M</div>
-            <div id="R1">R1</div>
-            <div id="R2">R2</div>
-            <div id="R3">R3</div>
-        </div>
-    </body>
-    <script>
-        let background = document.getElementById('background');
-        for (let button of background.children) {
-            let audio = document.createElement('audio');
-            audio.preload = 'auto';
-            audio.src = `cut/${button.id}.mp3`;
-            button.addEventListener('click', () => {audio.load(); audio.play()});
-            audio.addEventListener('play', () => button.style.backgroundColor = 'yellow');
-            audio.addEventListener('ended', () => button.style.backgroundColor = null);
-        }
-        let random = background.appendChild(document.createElement('button'));
-        random.textContent = 'Random';
-        random.addEventListener('click', () => {
-            background.children[Math.floor(Math.random() * background.children.length)].click();
-        });
-    </script>
-</html>
+<meta content="Egg's Oracle Trainer" property="og:title">
+<meta content="Train your ear to recognize VOG oracles by sound" property="og:description">
+<meta content="Egg's Tools" property="og:site_name">
+<base href="https://oracles.cabotmc.dev">
+<title>Oracle Trainer</title>
+<style>
+body {
+  background-color: #333;
+  font-family: sans-serif;
+}
+
+#background {
+  background: no-repeat url('bg.png');
+  background-size: contain;
+  height: 75vmin;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100vmin;
+}
+
+#background > div {
+  background: grey;
+  cursor: pointer;
+  opacity: .8;
+  padding: .5vmin;
+  position: absolute;
+}
+
+#L1 {
+  left: 26%;
+  top: 68%;
+}
+
+#L2 {
+  left: 20%;
+  top: 60%;
+}
+
+#L3 {
+  left: 35%;
+  top: 26%;
+}
+
+#M {
+  left: 48.5%;
+  top: 65%;
+}
+
+#R1 {
+  left: 70%;
+  top: 61%;
+}
+
+#R2 {
+  left: 77%;
+  top: 42%;
+}
+
+#R3 {
+  left: 63%;
+  top: 29%;
+}
+</style>
+
+<div id="background">
+  <div id="L1">L1</div>
+  <div id="L2">L2</div>
+  <div id="L3">L3</div>
+  <div id="M">M</div>
+  <div id="R1">R1</div>
+  <div id="R2">R2</div>
+  <div id="R3">R3</div>
+</div>
+
+<script>
+let background = document.getElementById('background');
+for (let button of background.children) {
+  let audio = document.createElement('audio');
+  audio.preload = 'auto';
+  audio.src = `cut/${button.id}.mp3`;
+  button.addEventListener('click', () => {audio.load(); audio.play()});
+  audio.addEventListener('play', () => button.style.backgroundColor = 'yellow');
+  audio.addEventListener('ended', () => button.style.backgroundColor = null);
+}
+
+let random = background.appendChild(document.createElement('button'));
+random.textContent = 'Random';
+random.addEventListener('click', () => {
+  background.children[Math.floor(Math.random() * background.children.length)].click();
+});
+</script>
