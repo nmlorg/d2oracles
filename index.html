@@ -16,16 +16,16 @@
                 top: 0;
                 width: 100vmin;
             }
-            #background > button {
+            #background > div {
+                background: grey;
+                cursor: pointer;
+                opacity: .8;
+                padding: .5vmin;
                 position: absolute;
             }
             body {
                 font-family: sans-serif;
                 background-color: #333;
-                color: white;
-            }
-            button {
-                color: black;
             }
             #L1 {
                 top: 68%;
@@ -59,21 +59,29 @@
     </head>
     <body>
         <div id="background">
-            <button id="L1">L1</button>
-            <button id="L2">L2</button>
-            <button id="L3">L3</button>
-            <button id="M">M</button>
-            <button id="R1">R1</button>
-            <button id="R2">R2</button>
-            <button id="R3">R3</button>
+            <div id="L1">L1</div>
+            <div id="L2">L2</div>
+            <div id="L3">L3</div>
+            <div id="M">M</div>
+            <div id="R1">R1</div>
+            <div id="R2">R2</div>
+            <div id="R3">R3</div>
         </div>
     </body>
     <script>
-        for (let s of ["L1", "L2", "L3", "M", "R1", "R2", "R3"]) {
+        let background = document.getElementById('background');
+        for (let button of background.children) {
             let audio = document.createElement('audio');
             audio.preload = 'auto';
-            audio.src = `cut/${s}.mp3`;
-            document.getElementById(s).addEventListener('click', () => audio.play());
+            audio.src = `cut/${button.id}.mp3`;
+            button.addEventListener('click', () => {audio.load(); audio.play()});
+            audio.addEventListener('play', () => button.style.backgroundColor = 'yellow');
+            audio.addEventListener('ended', () => button.style.backgroundColor = null);
         }
+        let random = background.appendChild(document.createElement('button'));
+        random.textContent = 'Random';
+        random.addEventListener('click', () => {
+            background.children[Math.floor(Math.random() * background.children.length)].click();
+        });
     </script>
 </html>
