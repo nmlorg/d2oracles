@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta content="Egg's Oracle Trainer" property="og:title">
+        <meta content="Train your ear to recognize VOG oracles by sound" property="og:description">
+        <meta content="Egg's Tools" property="og:site_name">
+        <title>Oracle Trainer</title>
+        <style>
+            #soundHolder {
+                display: none;
+            }
+            #background {
+                display: block;
+                min-width: 640px;
+                min-height: 480px;
+                position:absolute;
+                left: 100px;
+                top: 100px;
+                background-image: url('bg.png');
+            }
+            #background > button {
+                position: absolute;
+            }
+            body {
+                font-family: sans-serif;
+                background-color: #333;
+                color: white;
+            }
+            button {
+                color: black;
+            }
+            #results > span {
+                font-size: 24px;
+            }
+            [l1] {
+                top: 323px;
+                left: 161px;
+            }
+            [l2] {
+                top: 287px;
+                left: 127px;
+            }
+            [l3] {
+                top: 121px;
+                left: 219px
+            }
+            [m] {
+                top: 307px;
+                left: 305px;
+            }
+            [r1] {
+                top: 286px;
+                left: 444px;
+            }
+            [r2] {
+                top: 200px;
+                left: 486px;
+            }
+            [r3] {
+                top: 132px;
+                left: 404px;
+            }
+            #results {
+                position:absolute;
+                left: 0px;
+                width: 100%;
+                text-align: center;
+                top: 70px;
+            }
+        </style>
+    </head>
+    <body>
+        
+        <div id="soundHolder">
+
+        </div>
+        <div id="background">
+            <div id="results">
+
+            </div>
+            <button onclick="guess('L1')" l1>L1</button>
+            <button onclick="guess('L2')" l2>L2</button>
+            <button onclick="guess('L3')" l3>L3</button>
+            <button onclick="guess('M')"  m>M</button>
+            <button onclick="guess('R1')" r1>R1</button>
+            <button onclick="guess('R2')" r2>R2</button>
+            <button onclick="guess('R3')" r3>R3</button>
+
+        </div>
+        <button onclick="start()">Start</button><br />
+        <button onclick="replay()" id="rp">Replay</button>
+        <br />
+        <label for="x">Soundboard mode:</label><input type="checkbox" id="x" />
+        
+    </body>
+    <script>
+        const SOUNDS = ["L1", "L2", "L3", "M", "R1", "R2", "R3"]
+        var ORDER = []
+        var ORDER_BACK = []
+        var GUESSED = []
+        var COUNT = 0;
+        var SOUNDBOARD = false;
+        var PLAYING = false;
+        var soundHolder = document.getElementById("soundHolder")
+        for (var s of SOUNDS) {
+            soundHolder.innerHTML += `
+                <audio src="cut/${s}.mp3" id="${s}" onEnded="next()" preload="auto" />
+            `
+        }
+        function start() {
+            if (document.getElementById("x").checked) return;
+            ORDER = []
+            GUESSED = []
+            ORDER_BACK = [];
+
+            document.getElementById("results").innerHTML=""
+            COUNT = Math.ceil(Math.random() * 7);
+            //if (COUNT < 3) COUNT = 3;
+           var i = 0;
+            COUNT = 3;
+            while (i < COUNT) {
+                var v = SOUNDS[Math.floor(SOUNDS.length * Math.random())];
+                if (ORDER.includes(v)) continue;
+                ORDER.push(v)
+                i++
+                document.getElementById("results").innerHTML += `
+                    <span style="color: gray;">?</span>
+                `
+            }
+		PLAYING = true;
+        document.getElementById("rp").setAttribute("disabled", "")
+            console.log(ORDER);
+             document.getElementById(ORDER[0]).play();
+        }
+        function guess(id) {
+            var results = document.getElementById("results")
+            if (document.getElementById("x").checked) {
+                document.getElementById(id).play()
+                return;
+            }
+            results.removeChild(results.firstChild);
+            GUESSED.push(id);
+            if (GUESSED.length + 1 == ORDER_BACK.length + ORDER.length) {
+                // guessed all
+                
+                results.innerHTML = ""
+                
+                for (var i in ORDER_BACK) {
+                    // check against
+                    var color = "red";
+                    if (GUESSED[i] == ORDER_BACK[i]) {
+                        color = "limegreen"
+                    }
+                    results.innerHTML += `
+                    <span style="color: ${color};">${ORDER_BACK[i]}</span>
+                    `
+                }
+            }
+        }
+        function replay() {
+            ORDER = ORDER_BACK;
+            ORDER_BACK = [];
+            document.getElementById(ORDER[0]).play();
+        }
+        function next() {
+            if (document.getElementById("x").checked) return;
+            if (ORDER.length == 1) {
+                // finished
+                ORDER_BACK.push(ORDER[0]);
+                
+                document.getElementById("rp").removeAttribute("disabled")
+            } else {
+                ORDER_BACK.push(ORDER.shift())
+                console.log(ORDER[0])
+                document.getElementById(ORDER[0]).play();
+            }
+        }
+    </script>
+</html>
