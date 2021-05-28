@@ -5,46 +5,41 @@
 <base href="https://oracles.cabotmc.dev">
 <title>Oracle Trainer</title>
 <style>
+:root {
+  --dim: 1vw;
+}
+
+@media (min-aspect-ratio: 4/3) {
+  :root {
+    --dim: calc(4vh / 3);
+  }
+}
+
 body {
   background-color: #333;
   font-family: sans-serif;
 }
 
 body, button {
-  font-size: 2vw;
+  font-size: calc(2 * var(--dim));
 }
 
 #background {
   background: no-repeat url('bg.png');
   background-size: contain;
-  height: 75vw;
+  height: calc(75 * var(--dim));
   left: 0;
   position: absolute;
   top: 0;
-  width: 100vw;
+  width: calc(100 * var(--dim));
 }
 
 #background > div {
   background: grey;
   cursor: pointer;
   opacity: .8;
-  padding: .5vw;
+  padding: calc(.5 * var(--dim));
   position: absolute;
-}
-
-@media (min-aspect-ratio: 4/3) {
-  body, button {
-    font-size: 2.67vh;
-  }
-
-  #background {
-    height: 100vh;
-    width: 133vh;
-  }
-
-  #background > div {
-    padding: .67vh;
-  }
 }
 
 #L1 {
