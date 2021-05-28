@@ -10,22 +10,41 @@ body {
   font-family: sans-serif;
 }
 
+body, button {
+  font-size: 2vw;
+}
+
 #background {
   background: no-repeat url('bg.png');
   background-size: contain;
-  height: 75vmin;
+  height: 75vw;
   left: 0;
   position: absolute;
   top: 0;
-  width: 100vmin;
+  width: 100vw;
 }
 
 #background > div {
   background: grey;
   cursor: pointer;
   opacity: .8;
-  padding: .5vmin;
+  padding: .5vw;
   position: absolute;
+}
+
+@media (min-aspect-ratio: 4/3) {
+  body, button {
+    font-size: 2.67vh;
+  }
+
+  #background {
+    height: 100vh;
+    width: 133vh;
+  }
+
+  #background > div {
+    padding: .67vh;
+  }
 }
 
 #L1 {
@@ -44,7 +63,7 @@ body {
 }
 
 #M {
-  left: 48.5%;
+  left: 48.25%;
   top: 65%;
 }
 
