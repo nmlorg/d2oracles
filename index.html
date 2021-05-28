@@ -88,93 +88,19 @@
             <button onclick="guess('R3')" r3>R3</button>
 
         </div>
-        <button onclick="start()">Start</button><br />
-        <button onclick="replay()" id="rp">Replay</button>
         <br />
-        <label for="x">Soundboard mode:</label><input type="checkbox" id="x" />
         
     </body>
     <script>
         const SOUNDS = ["L1", "L2", "L3", "M", "R1", "R2", "R3"]
-        var ORDER = []
-        var ORDER_BACK = []
-        var GUESSED = []
-        var COUNT = 0;
-        var SOUNDBOARD = false;
-        var PLAYING = false;
         var soundHolder = document.getElementById("soundHolder")
         for (var s of SOUNDS) {
             soundHolder.innerHTML += `
-                <audio src="cut/${s}.mp3" id="${s}" onEnded="next()" preload="auto" />
+                <audio src="cut/${s}.mp3" id="${s}" preload="auto" />
             `
         }
-        function start() {
-            if (document.getElementById("x").checked) return;
-            ORDER = []
-            GUESSED = []
-            ORDER_BACK = [];
-
-            document.getElementById("results").innerHTML=""
-            COUNT = Math.ceil(Math.random() * 7);
-            //if (COUNT < 3) COUNT = 3;
-           var i = 0;
-            COUNT = 3;
-            while (i < COUNT) {
-                var v = SOUNDS[Math.floor(SOUNDS.length * Math.random())];
-                if (ORDER.includes(v)) continue;
-                ORDER.push(v)
-                i++
-                document.getElementById("results").innerHTML += `
-                    <span style="color: gray;">?</span>
-                `
-            }
-		PLAYING = true;
-        document.getElementById("rp").setAttribute("disabled", "")
-            console.log(ORDER);
-             document.getElementById(ORDER[0]).play();
-        }
         function guess(id) {
-            var results = document.getElementById("results")
-            if (document.getElementById("x").checked) {
-                document.getElementById(id).play()
-                return;
-            }
-            results.removeChild(results.firstChild);
-            GUESSED.push(id);
-            if (GUESSED.length + 1 == ORDER_BACK.length + ORDER.length) {
-                // guessed all
-                
-                results.innerHTML = ""
-                
-                for (var i in ORDER_BACK) {
-                    // check against
-                    var color = "red";
-                    if (GUESSED[i] == ORDER_BACK[i]) {
-                        color = "limegreen"
-                    }
-                    results.innerHTML += `
-                    <span style="color: ${color};">${ORDER_BACK[i]}</span>
-                    `
-                }
-            }
-        }
-        function replay() {
-            ORDER = ORDER_BACK;
-            ORDER_BACK = [];
-            document.getElementById(ORDER[0]).play();
-        }
-        function next() {
-            if (document.getElementById("x").checked) return;
-            if (ORDER.length == 1) {
-                // finished
-                ORDER_BACK.push(ORDER[0]);
-                
-                document.getElementById("rp").removeAttribute("disabled")
-            } else {
-                ORDER_BACK.push(ORDER.shift())
-                console.log(ORDER[0])
-                document.getElementById(ORDER[0]).play();
-            }
+            document.getElementById(id).play()
         }
     </script>
 </html>
