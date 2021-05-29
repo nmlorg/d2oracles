@@ -24,6 +24,22 @@ body, button {
   font-size: calc(2 * var(--dim));
 }
 
+button {
+  background: #777;
+  border: calc(.3 * var(--dim)) solid black;
+  border-radius: calc(1.5 * var(--dim));
+  padding: calc(.5 * var(--dim));
+}
+
+button:hover {
+  background: #555;
+  border-color: white;
+}
+
+button.active {
+  background: #ccc;
+}
+
 #background {
   background: no-repeat url('bg.png');
   background-size: contain;
@@ -112,13 +128,28 @@ for (let button of background.children) {
 let random = document.body.appendChild(document.createElement('button'));
 random.textContent = 'Random';
 random.addEventListener('click', () => {
+  random.classList.add('active');
   background.children[Math.floor(Math.random() * background.children.length)].click();
+  setTimeout(() => random.classList.remove('active'), 250);
 });
 
 let sequence = document.body.appendChild(document.createElement('button'));
+let sequenceInt = null;
+let sequenceNum = 0;
 sequence.textContent = 'Sequence';
 sequence.addEventListener('click', () => {
-  for (let i = 0; i < background.children.length; i++)
-    setTimeout(() => background.children[i].click(), i * 1250);
+  if (!sequenceInt) {
+    sequence.classList.add('active');
+    background.children[sequenceNum].click();
+    sequenceInt = setInterval(() => {
+      sequenceNum = (sequenceNum + 1) % background.children.length;
+      background.children[sequenceNum].click();
+    }, 1250);
+  } else {
+    sequence.classList.remove('active');
+    clearInterval(sequenceInt);
+    sequenceInt = null;
+    sequenceNum = 0;
+  }
 });
 </script>
