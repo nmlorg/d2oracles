@@ -32,6 +32,7 @@ body, button {
   position: absolute;
   top: 0;
   width: calc(100 * var(--dim));
+  z-index: -1;
 }
 
 #background > div {
@@ -88,12 +89,12 @@ body, button {
 </style>
 
 <div id="background">
-  <div id="L1">L1</div>
-  <div id="L2">L2</div>
-  <div id="L3">L3</div>
   <div id="M">M</div>
+  <div id="L1">L1</div>
   <div id="R1">R1</div>
+  <div id="L2">L2</div>
   <div id="R2">R2</div>
+  <div id="L3">L3</div>
   <div id="R3">R3</div>
 </div>
 
@@ -108,9 +109,16 @@ for (let button of background.children) {
   audio.addEventListener('ended', () => button.style.backgroundColor = null);
 }
 
-let random = background.appendChild(document.createElement('button'));
+let random = document.body.appendChild(document.createElement('button'));
 random.textContent = 'Random';
 random.addEventListener('click', () => {
   background.children[Math.floor(Math.random() * background.children.length)].click();
+});
+
+let sequence = document.body.appendChild(document.createElement('button'));
+sequence.textContent = 'Sequence';
+sequence.addEventListener('click', () => {
+  for (let i = 0; i < background.children.length; i++)
+    setTimeout(() => background.children[i].click(), i * 1250);
 });
 </script>
